@@ -27,7 +27,7 @@ setup(
         "async-timeout==4.0.2",
         "attrs==22.2.0",
         "certifi==2022.12.7",
-        "charset-normalizer==3.1.0",
+        "charset-normalizer==2.0.0",
         "Faker==18.4.0",
         "frozenlist==1.3.3",
         "idna==3.4",
