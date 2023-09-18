@@ -1,0 +1,49 @@
+{
+   "config": {
+      "log_level": "INFO",
+      "snowflake": {
+         "account": "wbasgsp-nl89731",
+         "user": "timeuser1",
+         "password": "test123",
+         "role": "SYSADMIN",
+         "warehouse": "CDP_DEVELOPER_WH",
+         "database": "UPR_DATA_INTG_META",
+         "schema": "CONFIG",
+         "#pass_phrase": "",
+         "#private_key_file": ""
+      },
+      "mparticle": {
+         "MP_API_KEY": "us1-82678b06c9c60047b7b0464368300442",
+         "MP_API_SECRET": "lQEGEay_DvlvW5HrPHJANFTtOAFFxzT5zvZNjZ6iMS3q0nCswxejIclxQHUotZUQ",
+         "connection_pool_size": "10",
+         "debug_enabled": "false",
+         "environment": "development",
+         "max_workers": 120,
+         "failed_record_queue_size": 5,
+         "exp_backoff": {
+            "max_retries": 2,
+            "base_wait_time": 2,
+            "max_wait_time": 60
+         },
+         "batch_size": 70,
+         "full_load_params": {
+            "async_coroutine_batch_size": 100,
+            "async_payload_batch_size": 100,
+            "async_client_timeout": 10,
+            "async_sleep_time": 3,
+            "endpoint_url": "https://s2s.mparticle.com/v2/bulkevents"
+         }
+
+      },
+      "email_notification_subscription": "both",
+      "data_load_control": {
+         "initial_load_date": "2023-06-15",
+         "filter_cond_col": "FILTER_DATE"
+         },
+      "snowflake_session_timeout":{
+         "idle_timeout_mins": 15,
+         "refresh_before_timeout_mins": 13
+      },
+      "load_type": "full_load"
+   }
+}

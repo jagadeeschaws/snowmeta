@@ -1,0 +1,30 @@
+{
+	"config": {
+		"log_level": "INFO",
+		"snowflake": {
+			"account": "RSWGHIJ-HUB04858",
+			"user": "snowflake1",
+			"password": "Test@123",
+			"role": "SYSADMIN",
+			"warehouse": "CDP_DEVELOPER_WH",
+			"database": "UPR_DATA_INTG_META",
+			"schema": "CONFIG",
+			"#pass_phrase": "",
+			"#private_key_file": ""
+		},
+		"mparticle": {
+			"MP_API_KEY": "us1-82678b06c9c60047b7b0464368300442",
+			"MP_API_SECRET": "lQEGEay_DvlvW5HrPHJANFTtOAFFxzT5zvZNjZ6iMS3q0nCswxejIclxQHUotZUQ",
+			"connection_pool_size": "120",
+			"debug_enabled": "false",
+			"environment": "development",
+			"max_workers": 120,
+			"failed_record_queue_size": 500,
+			"exp_backoff": {
+				"max_retries": 2,
+				"base_wait_time": 2,
+				"max_wait_time": 60
+			}
+		}
+	}
+}

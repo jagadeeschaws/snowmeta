@@ -1,0 +1,38 @@
+{
+  "root": {
+    "pipeline_name": "get_incr_data",
+    "desc":"getting incremental data",
+    "email_intg_name": "test_ing_email",
+    "email_addr_list": ["l1@email.com"],
+    "data_flow": [
+      {
+        "func": "ddl",
+        "query_list": ["use warehouse compute_wh"]
+      },
+      {
+        "func": "consume_stream",
+        "stream_name": "audience_individual_stream",
+        "stream_query": "create transient table if not exists audience_individual_stg as select * from audience_individual_stream"
+      },
+      {
+        "func": "ddl",
+        "query": "create or replace temporary view v_audience_table as with ai_temp AS (select in1.id, email, in1.col1, in1.col2, in1.col3 from audience_individual_stg in1 left join table_4 in2 on in1.id = in2.id),ap_temp AS (select id, col1, col2, col3 from audience_interaction),ap_type_payment_temp AS (SELECT email, passholder_parent_marketing_id, ap_type_description, payment_type_description FROM annual_passholder_details p WHERE ap_flag = 1 AND record_end_date_time IS NULL qualify row_number() OVER (partition BY passholder_parent_marketing_id ORDER BY CASE WHEN active_flag = 1 THEN 1 ELSE 2 END, CASE WHEN upper(ap_type_description) = 'premier' THEN 1 WHEN upper(ap_type_description) = 'preferred' THEN 2 WHEN upper(ap_type_description) = 'power' THEN 3 WHEN upper(ap_type_description) = 'season' THEN 4 END) = 1),table_4_temp AS (select id, col1, col2 from table_4) SELECT a.col1, a.col2, b.col1 as col3, c.passholder_parent_marketing_id,c.ap_type_description, d.col1 as col4 FROM ai_temp a left join ap_temp b on a.id = b.id left join ap_type_payment_temp c on a.email = c.email left join table_4_temp d on a.id = d.id;"
+      },
+      {
+        "func": "sql",
+        "query": "select * from v_audience_table",
+        "output_df": "incr_df"
+      },
+      {
+        "func": "mp_sink",
+        "input_df": "incr_df",
+        "mp_properties": {"secret_name": "mp_secret_name"},
+        "column_mapping" :{"user_identities": ["customerid", "email"], "user_attributes": ["col2", "col3", "col4"]}
+      },
+      {
+        "func": "ddl",
+        "query": "drop table audience_individual_stg"
+      }
+    ]
+  }
+}
